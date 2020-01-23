@@ -38,9 +38,8 @@ if (args.h) {
 -o\tOutput file
 -d\tUse this option to decrypt the input [Default option is to encrypt]
 --key\tThe secret key to use for encryption. Alternatively you can provide environment variable 'ENCR_SECRET'. If none of these options are provided then you will be securely asked for the key
---overwrite\tIf output file already exists, use this option to overwrite. Alternatively you can set environment variable 'OVERWRITE_ENCR_FILES' to 'true' if you do not want to provide this option
+--force\tIf output file already exists, use this option to overwrite.
 --alg\tEncryption algorithm to use. List depends upon OpenSSL (as per Node.js docs) Run 'openssl list -cipher-algorithms' to choose the possible option. **It defaults to AES-256 CBC**
---encoding\tNode.js character encoding option for the output - see complete list here: https://nodejs.org/api/buffer.html#buffer_buffers_and_character_encodings
 
 You can look at this table at https://github.com/amrayn/encr
 `);
@@ -48,8 +47,7 @@ You can look at this table at https://github.com/amrayn/encr
 }
 
 const isDecrypt = typeof args.d !== 'undefined';
-const overwrite = typeof args.overwrite !== 'undefined'
-  || process.env.OVERWRITE_ENCR_FILES === 'true';
+const overwrite = typeof args.force !== 'undefined';
 
 if (!args.i) {
   console.error('ERROR: Input file not specified [encr -i encrypted-file.inc]');
@@ -98,21 +96,30 @@ function start() {
 
   const encr = new Encr(secret, args.alg);
 
-  const finalize = async result => {
-    fs.writeFileSync(args.o, result.toString(args.encoding || 'utf8'));
+  const finalize = async buf => {
+    if (args.o === 'stdout') {
+      console.log(buf.toString());
+    } else {
+      fs.writeFileSync(args.o, buf);
+    }
   };
 
   const handleException = e => {
-    console.error('Error occurred: %s', e.message);
+    console.error(e.message || 'Unknown error occurred');
+    process.exit(1);
   }
 
   if (isDecrypt) {
     encr.decrypt(data).then(finalize).then(() => {
-      console.log('Decrypted successfully! %s bytes', fs.statSync(args.o).size);
+      if (args.o !== 'stdout') {
+        console.log('Decrypted successfully! %s bytes', fs.statSync(args.o).size);
+      }
     }).catch(handleException);
   } else {
     encr.encrypt(data).then(finalize).then(() => {
-      console.log('Encrypted successfully! %s bytes', fs.statSync(args.o).size);
+      if (args.o !== 'stdout') {
+        console.log('Encrypted successfully! %s bytes', fs.statSync(args.o).size);
+      }
     }).catch(handleException);
   }
 }
