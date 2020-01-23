@@ -12,7 +12,7 @@ yarn add encr
 ## CLI
 
 ```
-encr [-d] -i <input> -o <output> [--overwrite] [--key <secret>] [--alg <algorithm>]
+encr [-d] -i <input> -o <output> [--force] [--key <secret>] [--alg <algorithm>]
 ```
 
 ### Arguments

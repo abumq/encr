@@ -23,7 +23,7 @@ const Encr = require('./');
 const args = minimist(process.argv);
 
 function displayVersion() {
-  console.log(`encr v${packageJson.version}\n${packageJson.description}\nhttps://github.com/amrayn/encr\n\nWritten by Majid (@abumusamq)\n(c) Amrayn Web Services\nhttps://amrayn.com`);
+  console.log(`encr v${packageJson.version}\n${packageJson.description}\nhttps://github.com/amrayn/encr\n\n(c) Amrayn Web Services\nhttps://amrayn.com`);
 }
 
 if (args.v) {
@@ -34,12 +34,14 @@ if (args.v) {
 if (args.h) {
   displayVersion();
   console.log(`
+encr [-d] -i <input> -o <output> [--force] [--key <secret>] [--alg <algorithm>]
+
 -i\tInput file - this can be encrypted or plain data file
--o\tOutput file
+-o\tOutput file. If this option is 'stdout' it is output as string. Do not use this option to store to file as this will corrupt the encoding of buffer
 -d\tUse this option to decrypt the input [Default option is to encrypt]
---key\tThe secret key to use for encryption. Alternatively you can provide environment variable 'ENCR_SECRET'. If none of these options are provided then you will be securely asked for the key
+--key\tThe secret key to use for encryption. Alternatively you can provide environment variable 'ENCR_SECRET'.
 --force\tIf output file already exists, use this option to overwrite.
---alg\tEncryption algorithm to use. List depends upon OpenSSL (as per Node.js docs) Run 'openssl list -cipher-algorithms' to choose the possible option. **It defaults to AES-256 CBC**
+--alg\tEncryption algorithm to use. **It defaults to AES-256 CBC**
 
 You can look at this table at https://github.com/amrayn/encr
 `);
