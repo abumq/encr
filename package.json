@@ -1,6 +1,6 @@
 {
   "name": "encr",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Simple promise based encryption wrapper for Node.js with CLI",
   "main": "index.js",
   "bin": {
