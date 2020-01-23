@@ -1,8 +1,11 @@
 {
   "name": "encr",
   "version": "1.0.0",
-  "description": "Simple promise based encryption wrapper for Node.js",
+  "description": "Simple promise based encryption wrapper for Node.js with CLI",
   "main": "index.js",
+  "bin": {
+    "encr": "./cli.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/amrayn/encr.git"
@@ -12,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/amrayn/encr/issues"
   },
-  "homepage": "https://github.com/amrayn/encr#readme"
+  "homepage": "https://github.com/amrayn/encr#readme",
+  "dependencies": {
+    "inquirer": "^7.0.3",
+    "minimist": "^1.2.0"
+  }
 }

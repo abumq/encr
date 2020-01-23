@@ -1,5 +1,14 @@
 /**
- * See LICENSE file for license information
+ * Bismillah ar-Rahmaan ar-Raheem
+ *
+ * encr
+ *
+ * (c) 2020 Amrayn Web Services
+ * (c) 2020 @abumusamq
+ *
+ * This library is released under the MIT Licence.
+ *
+ * https://amrayn.com
  */
 
 const crypto = require('crypto');
