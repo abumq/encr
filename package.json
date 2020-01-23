@@ -1,0 +1,16 @@
+{
+  "name": "encr",
+  "version": "1.0.0",
+  "description": "Simple promise based encryption wrapper for Node.js",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amrayn/encr.git"
+  },
+  "author": "Amrayn Web Services",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/amrayn/encr/issues"
+  },
+  "homepage": "https://github.com/amrayn/encr#readme"
+}
