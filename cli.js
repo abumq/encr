@@ -62,7 +62,7 @@ if (!fs.existsSync(args.i)) {
 }
 
 if (fs.existsSync(args.o) && !overwrite) {
-  console.error('ERROR: File [%s] already exists. [use --overwrite]', args.o);
+  console.error('ERROR: File [%s] already exists. [use --force]', args.o);
   process.exit(1);
 }
 
