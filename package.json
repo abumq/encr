@@ -10,8 +10,8 @@
     "type": "git",
     "url": "git+https://github.com/amrayn/encr.git"
   },
-  "author": "Amrayn Web Services",
-  "license": "MIT",
+  "author": "Amrayn Web Services <opensource@amrayn.com>",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/amrayn/encr/issues"
   },
