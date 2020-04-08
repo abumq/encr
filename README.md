@@ -1,10 +1,6 @@
 # encr
 Simple promise based 256-bit encryption wrapper for Node.js
 
-```
-yarn add encr
-```
-
 <p align="center">
     •   •   •
 </p>
@@ -24,6 +20,16 @@ yarn add encr
 <p align="center">
     •   •   •
 </p>
+
+## Installation
+
+```bash
+npm i encr -S
+```
+
+```bash
+yarn add encr
+```
 
 ## CLI
 
