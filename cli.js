@@ -41,6 +41,7 @@ if (args.h) {
   displayVersion();
   console.log(`
 encr [-d] -i <input> -o <output> [--force] [--key <secret>] [--alg <algorithm>]
+encr -g <length>
 
 -i\tInput file - this can be encrypted or plain data file
 -o\tOutput file. If this option is 'stdout' it is output as string. Do not use this option to store to file as this will corrupt the encoding of buffer
@@ -55,61 +56,72 @@ You can look at this table at https://github.com/amrayn/encr
 }
 
 const isGenerate = typeof args.g !== 'undefined';
+const isDecrypt = typeof args.d !== 'undefined';
+const overwrite = typeof args.force !== 'undefined';
+
+// encryption/decryption
+if (!isGenerate && !args.i) {
+  console.error('ERROR: Input file not specified [encr -i encrypted-file.inc]');
+  process.exit(1);
+}
+
+if (!isGenerate && !fs.existsSync(args.i)) {
+  console.error('ERROR: File [%s] does not exist', args.i);
+  process.exit(1);
+}
+
+if (!isGenerate && fs.existsSync(args.o) && !overwrite) {
+  console.error('ERROR: File [%s] already exists. [use --force]', args.o);
+  process.exit(1);
+}
+
+if (!isGenerate && !args.o) {
+  console.error('ERROR: Output destination not specified');
+  process.exit(1);
+}
+
+let secret = args.key || process.env.ENCR_SECRET;
 
 if (isGenerate) {
-  const encr = new Encr();
-  const length = args.g;
-  encr.generateNonce(args.g ? Number(args.g) : undefined).then(console.log);
+  start();
+} else if (secret) {
+  if (args.key && args.o !== 'stdout') {
+    console.warn('WARNING: It is not a good practice to use CLI or environment variables for secrets\n');
+  }
+  start();
 } else {
-  const isDecrypt = typeof args.d !== 'undefined';
-  const overwrite = typeof args.force !== 'undefined';
-
-  // encryption/decryption
-  if (!args.i) {
-    console.error('ERROR: Input file not specified [encr -i encrypted-file.inc]');
-    process.exit(1);
-  }
-
-  if (!fs.existsSync(args.i)) {
-    console.error('ERROR: File [%s] does not exist', args.i);
-    process.exit(1);
-  }
-
-  if (fs.existsSync(args.o) && !overwrite) {
-    console.error('ERROR: File [%s] already exists. [use --force]', args.o);
-    process.exit(1);
-  }
-
-  let secret = args.key || process.env.ENCR_SECRET;
-
-  if (secret) {
-    if (args.key) {
-      console.warn('WARNING: It is not a good practice to use CLI for secrets\n');
-    }
+  inquirer.prompt([
+      {
+        name: 'secret',
+        message: 'Enter encryption secret. [you can also set in environment variables ENCR_SECRET]',
+        type: 'password',
+      },
+    ],
+  ).then((answers) => {
+    secret = answers.secret;
     start();
-  } else {
-    inquirer.prompt([
-        {
-          name: 'secret',
-          message: 'Enter encryption secret. [you can also set in env variable ENCR_SECRET]',
-          type: 'password',
-        },
-      ],
-    ).then((answers) => {
-      secret = answers.secret;
-      start();
-    });
-  }
+  });
 }
 
 function start() {
+
+  const handleException = e => {
+    console.error(e.message || 'Unknown error occurred');
+    process.exit(1);
+  }
+
+  if (isGenerate) {
+    const encr = new Encr();
+    encr.generateNonce(args.g ? Number(args.g) : undefined).then(console.log).catch(handleException);
+    return;
+  }
 
   if (!secret) {
     console.error('Secret not specified');
     process.exit(1);
   }
 
-  const data = fs.readFileSync(args.i);
+  const data = fs.readFileSync(resolve(args.i));
 
   const encr = new Encr(secret, args.alg);
 
@@ -120,11 +132,6 @@ function start() {
       fs.writeFileSync(args.o, buf);
     }
   };
-
-  const handleException = e => {
-    console.error(e.message || 'Unknown error occurred');
-    process.exit(1);
-  }
 
   if (isDecrypt) {
     encr.decrypt(data).then(finalize).then(() => {
