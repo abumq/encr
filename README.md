@@ -1,5 +1,5 @@
 # encr
-Simple promise based 256-bit encryption wrapper for Node.js
+Simple promise based encryption wrapper for Node.js and CLI based on crypto module
 
 <p align="center">
     •   •   •
@@ -33,8 +33,15 @@ yarn add encr
 
 ## CLI
 
-```
-encr [-d] -i <input> -o <output> [--force] [--key <secret>] [--alg <algorithm>]
+```bash
+## Encrypt
+encr -i <input> -o <output> [--force] [--key <secret>] [--alg <algorithm>]
+
+## Decrypt
+encr -d -i <input> -o <output> [--force] [--key <secret>] [--alg <algorithm>]
+
+## Random generator of length (default = 32)
+encr -g <length>
 ```
 
 ### Arguments
@@ -44,6 +51,7 @@ encr [-d] -i <input> -o <output> [--force] [--key <secret>] [--alg <algorithm>]
 | `-i` | Input file - this can be encrypted or plain data file |
 | `-o` | Output file. If this option is `stdout` it is output as string. Do not use this option to store to file as this will corrupt the encoding of buffer |
 | `-d` | Use this option to decrypt the input|
+| `-g` | Generate nonce|
 | `--key` | The secret key to use for encryption. Alternatively you can provide environment variable `ENCR_SECRET`. If none of these options are provided then you will be securely asked for the key |
 
 Optional arguments
@@ -72,12 +80,10 @@ encr.encrypt(plain).then(encrypted => {
 
 ## License
 ```
-Copyright (c) 2020 Amrayn Web Services
 Copyright (c) 2020 @abumusamq
+https://amrayn.com
 
 https://github.com/amrayn/
-https://amrayn.com
-https://humble.js.org
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

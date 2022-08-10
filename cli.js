@@ -1,17 +1,23 @@
 #!/usr/bin/env node
 
-/**
- * Bismillah ar-Rahmaan ar-Raheem
- *
- * encr
- *
- * (c) 2020 Amrayn Web Services
- * (c) 2020 @abumusamq
- *
- * This library is released under the MIT Licence.
- *
- * https://amrayn.com
- */
+// Bismillah ar-Rahmaan ar-Raheem
+// 
+// encr - Simple promise based encryption wrapper for Node.js and CLI based on crypto module
+//
+// (c) 2020 @abumusamq
+// https://amrayn.com
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 const fs = require('fs');
 const resolve = require('path').resolve;
@@ -48,43 +54,52 @@ You can look at this table at https://github.com/amrayn/encr
   process.exit(0);
 }
 
-const isDecrypt = typeof args.d !== 'undefined';
-const overwrite = typeof args.force !== 'undefined';
+const isGenerate = typeof args.g !== 'undefined';
 
-if (!args.i) {
-  console.error('ERROR: Input file not specified [encr -i encrypted-file.inc]');
-  process.exit(1);
-}
-
-if (!fs.existsSync(args.i)) {
-  console.error('ERROR: File [%s] does not exist', args.i);
-  process.exit(1);
-}
-
-if (fs.existsSync(args.o) && !overwrite) {
-  console.error('ERROR: File [%s] already exists. [use --force]', args.o);
-  process.exit(1);
-}
-
-let secret = args.key || process.env.ENCR_SECRET;
-
-if (secret) {
-  if (args.key) {
-    console.warn('WARNING: It is not a good practice to use CLI for secrets\n');
-  }
-  start();
+if (isGenerate) {
+  const encr = new Encr();
+  const length = args.g;
+  encr.generateNonce(args.g ? Number(args.g) : undefined).then(console.log);
 } else {
-  inquirer.prompt([
-      {
-        name: 'secret',
-        message: 'Enter encryption secret. [you can also set in env variable ENCR_SECRET]',
-        type: 'password',
-      },
-    ],
-  ).then((answers) => {
-    secret = answers.secret;
+  const isDecrypt = typeof args.d !== 'undefined';
+  const overwrite = typeof args.force !== 'undefined';
+
+  // encryption/decryption
+  if (!args.i) {
+    console.error('ERROR: Input file not specified [encr -i encrypted-file.inc]');
+    process.exit(1);
+  }
+
+  if (!fs.existsSync(args.i)) {
+    console.error('ERROR: File [%s] does not exist', args.i);
+    process.exit(1);
+  }
+
+  if (fs.existsSync(args.o) && !overwrite) {
+    console.error('ERROR: File [%s] already exists. [use --force]', args.o);
+    process.exit(1);
+  }
+
+  let secret = args.key || process.env.ENCR_SECRET;
+
+  if (secret) {
+    if (args.key) {
+      console.warn('WARNING: It is not a good practice to use CLI for secrets\n');
+    }
     start();
-  });
+  } else {
+    inquirer.prompt([
+        {
+          name: 'secret',
+          message: 'Enter encryption secret. [you can also set in env variable ENCR_SECRET]',
+          type: 'password',
+        },
+      ],
+    ).then((answers) => {
+      secret = answers.secret;
+      start();
+    });
+  }
 }
 
 function start() {
