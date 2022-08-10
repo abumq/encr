@@ -23,8 +23,10 @@ const CHARSET = '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-.
 
 class Encr {
   constructor(key, algorithm = 'aes-256-cbc') {
-    this.key = crypto.createHash('sha256').update(key).digest('base64').substr(0, 32);
-    this.algorithm = algorithm;
+    if (key) {
+      this.key = crypto.createHash('sha256').update(key).digest('base64').substr(0, 32);
+      this.algorithm = algorithm;
+    }
   }
 
   async encrypt(buffer) {
@@ -41,8 +43,11 @@ class Encr {
   }
 
   async generateNonce(length = 32) {
+    if (length === 0) {
+      return '';
+    }
     const result = [];
-    crypto.randomBytes(length).forEach(c => result.push(charset[c % charset.length]));
+    crypto.randomBytes(length).forEach(c => result.push(CHARSET[c % CHARSET.length]));
     return result.join('');
   }
 };
