@@ -9,11 +9,8 @@ Simple promise based encryption wrapper for Node.js and CLI based on crypto modu
   <a aria-label="NPM version" href="https://www.npmjs.com/package/encr">
     <img alt="" src="https://img.shields.io/npm/v/encr.svg?style=for-the-badge&labelColor=000000">
   </a>
-  <a aria-label="License" href="https://github.com/amrayn/encr/blob/master/LICENSE">
+  <a aria-label="License" href="https://github.com/abumq/encr/blob/master/LICENSE">
     <img alt="" src="https://img.shields.io/npm/l/encr?style=for-the-badge&labelColor=000000">
-  </a>
-  <a aria-label="Donate via PayPal" href="https://amrayn.com/donate">
-    <img alt="" src="https://img.shields.io/static/v1?label=Donate&message=PayPal&color=purple&style=for-the-badge&labelColor=000000">
   </a>
 </p>
 
@@ -80,10 +77,9 @@ encr.encrypt(plain).then(encrypted => {
 
 ## License
 ```
-Copyright (c) 2020 @abumusamq
-https://amrayn.com
+Copyright (c) 2020 @abumq
 
-https://github.com/amrayn/
+https://github.com/abumq/
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

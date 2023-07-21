@@ -4,8 +4,7 @@
 // 
 // encr - Simple promise based encryption wrapper for Node.js and CLI based on crypto module
 //
-// (c) 2020 @abumusamq
-// https://amrayn.com
+// (c) 2020 @abumq (Majid Q.)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,7 +28,7 @@ const Encr = require('./');
 const args = minimist(process.argv);
 
 function displayVersion() {
-  console.log(`encr v${packageJson.version}\n${packageJson.description}\nhttps://github.com/amrayn/encr\n\n(c) Amrayn Web Services\nhttps://amrayn.com`);
+  console.log(`encr v${packageJson.version}\n${packageJson.description}\nhttps://github.com/abumq/encr\n\n(c) 2020 @abumq (Majid Q.)`);
 }
 
 if (args.v) {
@@ -50,7 +49,7 @@ encr -g <length>
 --force\tIf output file already exists, use this option to overwrite.
 --alg\tEncryption algorithm to use. **It defaults to AES-256 CBC**
 
-You can look at this table at https://github.com/amrayn/encr
+You can look at this table at https://github.com/abumq/encr
 `);
   process.exit(0);
 }

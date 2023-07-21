@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/amrayn/encr.git"
+    "url": "git+https://github.com/abumq/encr.git"
   },
-  "author": "Amrayn Web Services <opensource@amrayn.com>",
+  "author": "Majid Q. <abumusamq@gmail.com>",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/amrayn/encr/issues"
+    "url": "https://github.com/abumq/encr/issues"
   },
-  "homepage": "https://github.com/amrayn/encr#readme",
+  "homepage": "https://github.com/abumq/encr#readme",
   "dependencies": {
     "inquirer": "^7.0.3",
     "minimist": "^1.2.0"

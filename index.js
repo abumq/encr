@@ -2,8 +2,7 @@
 // 
 // encr - Simple promise based encryption wrapper for Node.js and CLI based on crypto module
 //
-// (c) 2020 @abumusamq
-// https://amrayn.com
+// (c) 2020 @abumq (Majid Q.)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
